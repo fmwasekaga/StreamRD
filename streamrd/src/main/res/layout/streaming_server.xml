@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.kagaconnect.rtp.view.OpenGlView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/cameraSurface"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:numFilters="7"
+        />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/clCameraContainer"
+        android:paddingStart="16dp"
+        android:paddingEnd="24dp">
+
+        <ImageView
+            android:id="@+id/ivFlashSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="12dp"
+            android:src="@drawable/ic_flash_off"
+            android:translationZ="2dp"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/ivCameraSwitch"/>
+
+        <ImageView
+            android:id="@+id/ivCameraSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_camera_flip"
+            android:translationZ="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivFlashSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/ivAspectRatioSwitch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <ImageView
+            android:id="@+id/ivAspectRatioSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_aspect_ratio"
+            android:translationZ="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivCameraSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/ivAdjustments"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <ImageView
+            android:id="@+id/ivAdjustments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_image_filter_black_white"
+            android:translationZ="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivAspectRatioSwitch"
+            app:layout_constraintBottom_toTopOf="@+id/ivfilters"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"/>
+
+        <ImageView
+            android:id="@+id/ivfilters"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_video_filter"
+            android:translationZ="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivAdjustments"
+            app:layout_constraintBottom_toTopOf="@+id/ivRotate"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivRotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:src="@drawable/ic_rotate_right"
+            android:translationZ="2dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivfilters"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <View
+            android:id="@+id/seek_bar_click_area"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/seek_bar_item_menu"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filter_listView"
+            android:layout_marginBottom="16dp"
+            android:layout_width="0dp"
+            android:layout_height="94.0dip"
+            android:padding="5.0dip"
+            android:scrollbars="none"
+            android:background="#20000000"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/ivfilters"
+            app:layout_constraintEnd_toStartOf="@+id/ivVideoCaptureButton"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/seek_bar_item_menu"
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/ivfilters"
+            app:layout_constraintEnd_toStartOf="@+id/ivVideoCaptureButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp">
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+                <ImageView
+                    android:id="@+id/item_label"
+                    android:layout_width="25.0dip"
+                    android:layout_height="25.0dip"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_marginRight="20.0dip" />
+                <FrameLayout
+                    android:id="@+id/valueSlider"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:scrollbars="none"
+                    android:layout_weight="1.0"/>
+                <com.kagaconnect.streamrd.widget.TwoLineSeekBar
+                    android:visibility="gone"
+                    android:id="@+id/item_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1.0" />
+                <TextView
+                    android:textColor="#ffffffff"
+                    android:id="@+id/item_val"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15.0dip"
+                    android:layout_marginRight="15.0dip"
+                    android:minWidth="40.0dip" />
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:id="@+id/fragment_adjust_scrollview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+                <RadioGroup
+                    android:id="@+id/fragment_adjust_radiogroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_contrast"
+                        android:drawableTop="@drawable/selector_image_edit_adjust_contrast"
+                        android:text="@string/edit_contrast"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_exposure"
+                        android:drawableTop="@drawable/selector_image_edit_adjust_exposure"
+                        android:text="@string/edit_exposure"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_saturation"
+                        android:drawableTop="@drawable/selector_image_edit_adjust_saturation"
+                        android:text="@string/edit_saturation"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_sharpness"
+                        android:drawableTop="@drawable/selector_image_edit_adjust_sharpness"
+                        android:text="@string/edit_sharpness"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_bright"
+                        android:drawableTop="@drawable/selector_image_edit_adjust_bright"
+                        android:text="@string/edit_brightness"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <!--<RadioButton
+                        android:id="@+id/fragment_radio_hue"
+                        android:drawableTop="@drawable/selector_image_edit_adjust_hue"
+                        android:text="@string/edit_hue"
+                        style="@style/ImageEditor_adjust_radiobutton"/>-->
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_whitebalance"
+                        android:drawableTop="@drawable/selector_whitebalance"
+                        android:text="@string/whitebalance"
+                        style="@style/ImageEditor_adjust_radiobutton"
+                        android:textSize="10sp"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_focus"
+                        android:drawableTop="@drawable/selector_focus_auto"
+                        android:text="@string/focus_auto"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_shutter"
+                        android:drawableTop="@drawable/selector_shutter"
+                        android:text="@string/shutter"
+                        style="@style/ImageEditor_adjust_radiobutton"/>
+
+                    <RadioButton
+                        android:id="@+id/fragment_radio_iso"
+                        android:drawableTop="@drawable/selector_iso"
+                        android:text=""
+                        style="@style/ImageEditor_adjust_radiobutton"
+                        android:textSize="10sp"/>
+
+                    <!--<RadioButton
+                        android:id="@+id/fragment_radio_aeLock"
+                        android:drawableTop="@drawable/selector_aeLock"
+                        android:text="@string/aeLock"
+                        style="@style/ImageEditor_adjust_radiobutton"/>-->
+                </RadioGroup>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!--<FrameLayout
+            android:id="@+id/valueSlider"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
+            app:layout_constraintEnd_toStartOf="@+id/ivVideoCaptureButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="92dp"
+            android:layout_marginBottom="92dp"
+            android:scrollbars="none"/>-->
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="415dp"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@+id/ivfilters"
+            app:layout_constraintEnd_toStartOf="@+id/ivVideoCaptureButton"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/wbInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/focusInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/isoInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/expInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/apertureInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivCastSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_cast_off"
+            android:translationZ="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivVideoCaptureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_camera_video_capture"
+            android:translationZ="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/ivSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_settings_white"
+            android:translationZ="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">StreamRD</string>
+
+    <string name="edit_contrast">Contrast</string>
+    <string name="edit_exposure">Exposure</string>
+    <string name="edit_vibrance">Vibrance</string>
+    <string name="edit_saturation">Saturation</string>
+    <string name="edit_sharpness">Sharpness</string>
+    <string name="edit_brightness">Bright</string>
+    <string name="edit_hue">Hue</string>
+
+    <string name="focus_auto">Focus</string>
+    <string name="whitebalance">White Balance</string>
+    <string name="iso">ISO</string>
+    <string name="shutter">Shutter</string>
+    <string name="aeLock">AELock</string>
+
+    <string name="filter_none">Original</string>
+</resources>

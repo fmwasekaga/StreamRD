@@ -1,0 +1,89 @@
+plugins {
+    id 'com.android.application'
+}
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion project.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.kagaconnect.streamrd"
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode versionMajor.toInteger() * 10000 + versionMinor.toInteger() * 100 + versionPatch.toInteger()
+        versionName"${versionMajor}.${versionMinor}.${versionPatch}"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'mips', 'mips64', 'x86_64'
+            universalApk true
+        }
+    }
+
+    project.ext.versionCodes = ['armeabi': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, 'mips': 5, 'mips64': 6, 'x86': 8, 'x86_64': 9]
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.versionCodeOverride =
+                    project.versionCodes.get(output.getFilter(
+                            com.android.build.OutputFile.ABI), 0) * 10000000 + android.defaultConfig.versionCode
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        // The demo app isn't indexed, doesn't have translations, and has a
+        // banner for AndroidTV that's only in xhdpi density.
+        disable 'GoogleAppIndexingWarning','MissingTranslation','IconDensities'
+    }
+
+    flavorDimensions "extensions"
+
+    productFlavors {
+        noExtensions {
+            dimension "extensions"
+        }
+        withExtensions {
+            dimension "extensions"
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "com.google.android.material:material:$googleMaterialVersion"
+    implementation "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:$rtpLibraryVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$project.kotlinVersion"
+
+    implementation project(path: ':bubbleseekbar') //com.xw.repo:bubbleseekbar:3.20
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotations"
+
+    testImplementation "junit:junit:$project.junitVersion"
+    androidTestImplementation "androidx.test.ext:junit:$project.androidxTestJUnitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$project.androidxTestEspressoCoreVersion"
+}
