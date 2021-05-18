@@ -1,1 +1,1 @@
-# Stream Recording Device
+# Stream Recorder Device
