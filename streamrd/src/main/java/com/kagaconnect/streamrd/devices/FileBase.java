@@ -2,15 +2,13 @@ package com.kagaconnect.streamrd.devices;
 
 import android.content.Context;
 import android.media.MediaCodec;
-
-import com.kagaconnect.rtp.view.LightOpenGlView;
-import com.kagaconnect.rtp.view.OpenGlView;
 import com.kagaconnect.streamrd.helpers.RtspServer;
 import com.pedro.encoder.input.decoder.AudioDecoderInterface;
 import com.pedro.encoder.input.decoder.VideoDecoderInterface;
 import com.pedro.encoder.utils.CodecUtil;
+import com.pedro.rtplibrary.view.LightOpenGlView;
+import com.pedro.rtplibrary.view.OpenGlView;
 import com.pedro.rtsp.rtsp.VideoCodec;
-
 import java.nio.ByteBuffer;
 
 public class FileBase extends  com.kagaconnect.rtp.base.FromFileBase {

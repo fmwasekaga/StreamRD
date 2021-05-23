@@ -11,10 +11,8 @@ import android.media.MediaRecorder;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -30,11 +28,10 @@ import com.pedro.encoder.utils.CodecUtil;
 import com.pedro.encoder.video.FormatVideoEncoder;
 import com.pedro.encoder.video.GetVideoData;
 import com.pedro.encoder.video.VideoEncoder;
-import com.kagaconnect.rtp.util.FpsListener;
-import com.kagaconnect.rtp.util.RecordController;
-import com.kagaconnect.rtp.view.GlInterface;
-import com.kagaconnect.rtp.view.OffScreenGlThread;
-
+import com.pedro.rtplibrary.util.FpsListener;
+import com.pedro.rtplibrary.util.RecordController;
+import com.pedro.rtplibrary.view.GlInterface;
+import com.pedro.rtplibrary.view.OffScreenGlThread;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -1,29 +1,22 @@
 package com.kagaconnect.streamrd.devices;
 
 import android.content.Context;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.RggbChannelVector;
 import android.media.MediaCodec;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.TextureView;
 import android.widget.Toast;
-
-import com.kagaconnect.rtp.Camera2ApiManagerExtension;
 import com.kagaconnect.rtp.CameraInfoCallback;
-import com.kagaconnect.rtp.view.LightOpenGlView;
-import com.kagaconnect.rtp.view.OpenGlView;
 import com.kagaconnect.streamrd.helpers.AudioQuality;
 import com.kagaconnect.streamrd.helpers.RtspServer;
 import com.kagaconnect.streamrd.helpers.VideoQuality;
 import com.pedro.encoder.input.video.CameraHelper;
 import com.pedro.encoder.utils.CodecUtil;
+import com.pedro.rtplibrary.view.LightOpenGlView;
+import com.pedro.rtplibrary.view.OpenGlView;
 import com.pedro.rtsp.rtsp.VideoCodec;
-
 import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;

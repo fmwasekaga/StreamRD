@@ -16,7 +16,9 @@ import com.pedro.encoder.input.audio.GetMicrophoneData;
 import com.pedro.encoder.input.audio.MicrophoneManager;
 import com.pedro.encoder.input.audio.MicrophoneManagerManual;
 import com.pedro.encoder.input.audio.MicrophoneMode;
-import com.kagaconnect.rtp.util.RecordController;
+
+import com.pedro.rtplibrary.util.RecordController;
+//import com.kagaconnect.rtp.util.RecordController;
 
 import java.io.FileDescriptor;
 import java.io.IOException;

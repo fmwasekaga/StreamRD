@@ -18,9 +18,6 @@ import androidx.annotation.RequiresApi;
 import com.kagaconnect.rtp.Camera1ApiManagerExtension;
 import com.kagaconnect.rtp.Camera2ApiManagerExtension;
 import com.kagaconnect.rtp.CameraInfoCallback;
-import com.kagaconnect.rtp.util.FpsListener;
-import com.kagaconnect.rtp.view.LightOpenGlView;
-import com.kagaconnect.rtp.view.OpenGlView;
 import com.kagaconnect.streamrd.helpers.AudioQuality;
 import com.kagaconnect.streamrd.helpers.Filters;
 import com.kagaconnect.streamrd.helpers.Flash;
@@ -33,9 +30,12 @@ import com.pedro.encoder.input.video.Camera1ApiManager;
 import com.pedro.encoder.input.video.Camera2ApiManager;
 import com.pedro.encoder.input.video.CameraCallbacks;
 import com.pedro.encoder.input.video.CameraHelper;
+import com.pedro.rtplibrary.util.FpsListener;
+import com.pedro.rtplibrary.view.LightOpenGlView;
+import com.pedro.rtplibrary.view.OpenGlView;
 import com.pedro.rtsp.rtsp.VideoCodec;
-
 import org.jetbrains.annotations.NotNull;
+//import com.kagaconnect.rtp.util.FpsListener;
 
 import java.io.File;
 import java.util.ArrayList;

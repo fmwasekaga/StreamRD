@@ -4,12 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -21,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.kagaconnect.rtp.AspectRatioMode;
 import com.kagaconnect.rtp.ColorTemperatureConverter;
 import com.kagaconnect.streamrd.R;
 import com.kagaconnect.streamrd.adapters.FilterAdapter;
@@ -33,7 +29,6 @@ import com.kagaconnect.streamrd.helpers.Flash;
 import com.kagaconnect.streamrd.helpers.RtspServer;
 import com.kagaconnect.streamrd.helpers.VideoQuality;
 import com.kagaconnect.streamrd.helpers.WindowHelper;
-import com.kagaconnect.streamrd.sliders.CameraValueSlider;
 import com.kagaconnect.streamrd.sliders.ColorCorrectionSlider;
 import com.kagaconnect.streamrd.sliders.ExposureTimeSlider;
 import com.kagaconnect.streamrd.sliders.FocusSlider;
@@ -44,7 +39,6 @@ import com.pedro.encoder.input.video.CameraHelper;
 import com.pedro.rtsp.utils.ConnectCheckerRtsp;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Server extends AppCompatActivity {
@@ -75,7 +69,7 @@ public class Server extends AppCompatActivity {
     private ColorCorrectionSlider colorCorrectionSlider;
     private SaturationFilterRender filter_saturation;
     private RotationFilterRender filter_rotation;
-    private com.kagaconnect.rtp.view.OpenGlView CameraSurface;
+    private com.pedro.rtplibrary.view.OpenGlView CameraSurface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -436,8 +430,8 @@ public class Server extends AppCompatActivity {
             }
             else {
                 CameraSurface.setKeepAspectRatio(!CameraSurface.isKeepAspectRatio());
-                CameraSurface.setAspectRatioMode(CameraSurface.isKeepAspectRatio() ?
-                        AspectRatioMode.ADJUST : AspectRatioMode.FILL);
+                //CameraSurface.setAspectRatioMode(CameraSurface.isKeepAspectRatio() ?
+                //        AspectRatioMode.ADJUST : AspectRatioMode.FILL);
             }
         });
 
