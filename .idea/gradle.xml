@@ -11,6 +11,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/bubbleseekbar" />
+            <option value="$PROJECT_DIR$/rtmp" />
             <option value="$PROJECT_DIR$/streamrd" />
           </set>
         </option>

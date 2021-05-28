@@ -26,6 +26,7 @@ import com.kagaconnect.streamrd.helpers.AudioQuality;
 import com.kagaconnect.streamrd.helpers.ExposureTimeConverter;
 import com.kagaconnect.streamrd.helpers.FilterInfo;
 import com.kagaconnect.streamrd.helpers.Flash;
+import com.kagaconnect.streamrd.helpers.RtmpServer;
 import com.kagaconnect.streamrd.helpers.RtspServer;
 import com.kagaconnect.streamrd.helpers.VideoQuality;
 import com.kagaconnect.streamrd.helpers.WindowHelper;
@@ -36,6 +37,7 @@ import com.kagaconnect.streamrd.sliders.ISOSlider;
 import com.kagaconnect.streamrd.widget.TwoLineSeekBar;
 import com.pedro.encoder.input.gl.render.filters.*;
 import com.pedro.encoder.input.video.CameraHelper;
+import com.pedro.rtmp.utils.ConnectCheckerRtmp;
 import com.pedro.rtsp.utils.ConnectCheckerRtsp;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
@@ -47,6 +49,8 @@ public class Server extends AppCompatActivity {
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    //boolean isStreaming = false;
 
     private int port = 8554;
     private float saturation = 0.0f;
@@ -74,7 +78,10 @@ public class Server extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+                | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         setContentView(R.layout.streaming_server);
 
         filter_contrast     = new ContrastFilterRender();
@@ -113,6 +120,44 @@ public class Server extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mFilterListView.setLayoutManager(linearLayoutManager);
+
+        /*RtmpServer rtmpServer       = new RtmpServer(this, new ConnectCheckerRtmp() {
+
+            @Override
+            public void onAuthSuccessRtmp() {
+
+            }
+
+            @Override
+            public void onAuthErrorRtmp() {
+
+            }
+
+            @Override
+            public void onDisconnectRtmp() {
+
+            }
+
+            @Override
+            public void onNewBitrateRtmp(long bitrate) {
+
+            }
+
+            @Override
+            public void onConnectionFailedRtmp(@NotNull String reason) {
+
+            }
+
+            @Override
+            public void onConnectionSuccessRtmp() {
+
+            }
+
+            @Override
+            public void onConnectionStartedRtmp(@NotNull String rtmpUrl) {
+
+            }
+        },1935);*/
 
         List<FilterInfo> filters    = FilterInfo.getFilters();
         RtspServer rtspServer       = new RtspServer(this, new ConnectCheckerRtsp() {
@@ -385,6 +430,7 @@ public class Server extends AppCompatActivity {
             }
         });
 
+
         ivCast.setOnClickListener(v -> {
             hideMenu();
             if (!hasPermissions(this, PERMISSIONS)) {
@@ -401,7 +447,16 @@ public class Server extends AppCompatActivity {
                     }
                 }
 
-                if (!Camera.isStreaming()) Camera.startStream();
+                /*if (!isStreaming) {
+                    rtmpServer.startServer();
+                    isStreaming = true;
+                }
+                else{
+                    rtmpServer.stopServer();
+                    isStreaming = false;
+                }*/
+
+                if (!Camera.isStreaming())Camera.startStream();
                 else Camera.stopStream();
 
                 Camera.fixDarkPreview();

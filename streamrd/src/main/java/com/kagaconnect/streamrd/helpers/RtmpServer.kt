@@ -3,25 +3,17 @@ package com.kagaconnect.streamrd.helpers
 import android.content.Context
 import android.media.MediaCodec
 import android.util.Log
-import com.pedro.rtsp.utils.ConnectCheckerRtsp
-import com.pedro.rtsp.utils.RtpConstants
+import com.pedro.rtmp.rtmp.RtmpSender
+import com.pedro.rtmp.utils.ConnectCheckerRtmp
 import java.io.*
 import java.net.*
 import java.nio.ByteBuffer
 import java.util.*
 
-/**
- *
- * Created by pedro on 13/02/19.
- *
- *
- * TODO Use different session per client.
- */
+class RtmpServer(context: Context, private val connectCheckerRtmp: ConnectCheckerRtmp,
+                 val port: Int): ClientListener {
 
-class RtspServer(context: Context, private val connectCheckerRtsp: ConnectCheckerRtsp,
-                 val port: Int) : ClientListener{
-
-    private val TAG = "RtspServer"
+    private val TAG = "RtmpServer"
     private var server: ServerSocket? = null
     val serverIp = getIPAddress(true)
     var sps: ByteBuffer? = null
@@ -29,7 +21,7 @@ class RtspServer(context: Context, private val connectCheckerRtsp: ConnectChecke
     var vps: ByteBuffer? = null
     var sampleRate = 32000
     var isStereo = true
-    private val clients = mutableListOf<RtspClient>()
+    private val clients = mutableListOf<RtmpClient>()
     private var isOnlyAudio = false
     private var thread: Thread? = null
     private var user: String? = null
@@ -48,8 +40,9 @@ class RtspServer(context: Context, private val connectCheckerRtsp: ConnectChecke
                 Log.i(TAG, "Server started $serverIp:$port")
                 try {
                     val client =
-                        RtspClient(server!!.accept(), serverIp, port, connectCheckerRtsp, sps!!, pps!!, vps, sampleRate,
-                                    isStereo, isOnlyAudio, user, password, this)
+                        RtmpClient(server!!.accept(), serverIp, port, connectCheckerRtmp,640,
+                            480, sampleRate, isStereo, isOnlyAudio, user, password,
+                            this)
                     client.start()
                     clients.add(client)
                 } catch (e: SocketException) {
@@ -80,33 +73,22 @@ class RtspServer(context: Context, private val connectCheckerRtsp: ConnectChecke
         }
     }
 
-    fun setOnlyAudio(onlyAudio: Boolean) {
-        if (onlyAudio) {
-            RtpConstants.trackAudio = 0
-            RtpConstants.trackVideo = 1
-        } else {
-            RtpConstants.trackVideo = 0
-            RtpConstants.trackAudio = 1
-        }
-        this.isOnlyAudio = onlyAudio
-    }
-
     fun setLogs(enable: Boolean) {
-        clients.forEach { it.rtspSender.setLogs(enable) }
+        clients.forEach { it.rtmpSender.setLogs(enable) }
     }
 
     fun sendVideo(h264Buffer: ByteBuffer, info: MediaCodec.BufferInfo) {
         clients.forEach {
-            if (it.isAlive && it.canSend) {
-                it.rtspSender.sendVideoFrame(h264Buffer.duplicate(), info)
+            if (it.isAlive && it.publishPermitted) {
+                it.rtmpSender.sendVideoFrame(h264Buffer.duplicate(), info)
             }
         }
     }
 
     fun sendAudio(aacBuffer: ByteBuffer, info: MediaCodec.BufferInfo) {
         clients.forEach {
-            if (it.isAlive && it.canSend) {
-                it.rtspSender.sendAudioFrame(aacBuffer.duplicate(), info)
+            if (it.isAlive && it.publishPermitted) {
+                it.rtmpSender.sendAudioFrame(aacBuffer.duplicate(), info)
             }
         }
     }
@@ -120,10 +102,10 @@ class RtspServer(context: Context, private val connectCheckerRtsp: ConnectChecke
     private fun getIPAddress(useIPv4: Boolean): String {
         try {
             val interfaces: List<NetworkInterface> =
-                    Collections.list(NetworkInterface.getNetworkInterfaces())
+                Collections.list(NetworkInterface.getNetworkInterfaces())
             for (intf in interfaces) {
                 val addrs: List<InetAddress> =
-                        Collections.list(intf.inetAddresses)
+                    Collections.list(intf.inetAddresses)
                 for (addr in addrs) {
                     if (!addr.isLoopbackAddress) {
                         val sAddr = addr.hostAddress
@@ -134,7 +116,7 @@ class RtspServer(context: Context, private val connectCheckerRtsp: ConnectChecke
                             if (!isIPv4) {
                                 val delim = sAddr.indexOf('%') // drop ip6 zone suffix
                                 return if (delim < 0) sAddr.toUpperCase() else sAddr.substring(0, delim)
-                                        .toUpperCase()
+                                    .toUpperCase()
                             }
                         }
                     }
@@ -145,23 +127,14 @@ class RtspServer(context: Context, private val connectCheckerRtsp: ConnectChecke
         return "0.0.0.0"
     }
 
-    fun hasCongestion(): Boolean {
-        synchronized(clients) {
-            var congestion = false
-            clients.forEach { if (it.hasCongestion()) congestion = true }
-            return congestion
-        }
+    override fun onDisconnected(client: RtspClient) {
+
     }
 
-    override fun onDisconnected(client: RtspClient) {
+    override fun onDisconnected(client: RtmpClient) {
         synchronized(clients) {
             client.stopClient()
             clients.remove(client)
         }
     }
-
-    override fun onDisconnected(client: RtmpClient) {
-
-    }
-
 }

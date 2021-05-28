@@ -78,10 +78,14 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "com.google.android.material:material:$googleMaterialVersion"
     implementation "com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:$rtpLibraryVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$project.kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$project.kotlinVersion"
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotations"
+    implementation "org.java-websocket:Java-WebSocket:$javawebsocket"
+    implementation "org.webrtc:google-webrtc:$googlewebrtc"
+    implementation "com.google.code.gson:gson:$gson"
 
     implementation project(path: ':bubbleseekbar') //com.xw.repo:bubbleseekbar:3.20
-    implementation "org.jetbrains:annotations:$jetbrainsAnnotations"
+    implementation project(path: ':rtmp') //com.github.pedroSG94.rtmp-rtsp-stream-client-java 2.0.2
 
     testImplementation "junit:junit:$project.junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$project.androidxTestJUnitVersion"

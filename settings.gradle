@@ -1,3 +1,4 @@
 rootProject.name = "StreamRD"
 include ':streamrd'
 include ':bubbleseekbar'
+include ':rtmp'

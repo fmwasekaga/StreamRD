@@ -14,6 +14,9 @@ buildscript {
         rtpLibraryVersion = '2.0.2'
         bubbleseekbar = '3.20'
         junitVersion = '4.13.2'
+        javawebsocket = '1.5.1'
+        googlewebrtc = '1.0.32006'
+        gson = '2.8.6'
         versionMajor = 1
         versionMinor = 0
         versionPatch = 0
@@ -40,7 +43,7 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        //jcenter() // Warning: this repository is going to shut down soon
+        jcenter() // Warning: this repository is going to shut down soon
     }
 }
 
