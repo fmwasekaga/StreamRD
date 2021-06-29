@@ -81,6 +81,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$project.kotlinVersion"
     implementation "org.jetbrains:annotations:$jetbrainsAnnotations"
     implementation "org.java-websocket:Java-WebSocket:$javawebsocket"
+    implementation "io.crossbar.autobahn:autobahn-android:$autobahn"
     implementation "org.webrtc:google-webrtc:$googlewebrtc"
     implementation "com.google.code.gson:gson:$gson"
 
